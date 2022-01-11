@@ -1,0 +1,4 @@
+"F:\文件下载储存\_Clion\CLion 2021.3.2\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=F:/文件下载储存/_Clion/CLion 2021.3.2/bin/ninja/win/ninja.exe" -G Ninja F:\DataStruct_study
+-- Configuring done
+-- Generating done
+-- Build files have been written to: F:/DataStruct_study/cmake-build-debug
