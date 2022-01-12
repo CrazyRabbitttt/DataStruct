@@ -126,12 +126,34 @@ void Vector<T>::traverse(void (* visit)(T &)) {         //调用函数指针进行遍历
 
 template<typename T>
 struct visit{
-            void operator () (T &e) {e++;};
+            void operator () (T &e) {e++;}
         };
 
 template <typename T> template <typename VST> //元素类型、操作器
 void Vector<T>::traverse ( VST& visit ) //借助函数对象机制
 { for ( int i = 0; i < _size; i++ ) visit ( _elem[i] ); } //遍历向量
+
+template<typename T>
+int Vector<T>::disordered() {
+    int n = 0;          //逆序就计数
+    for (int i = 1; i < _size; i++) {
+        if (_elem[i - 1] > _elem[i]) n++;
+    }
+    return n;
+}
+
+template<typename T>
+Rank Vector<T>::search(const T &e, Rank low, Rank high) const {
+    //用二分或者是斐波那契查找
+    return (rand() % 2) ? binSearch(_elem, e, low, high) : fibSearch(_elem, e, low, high);
+}
+
+
+
+
+
+
+
 
 
 

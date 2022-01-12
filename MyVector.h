@@ -17,6 +17,7 @@ public:
     void expand(); //空间不足时扩容
     bool bubble ( Rank lo, Rank hi ); //扫描交换
     void shrink();      //装填的因子过小_size不足_capacity >> 2
+    int disordered();
 public:
     Vector(int c=DEAULT_CAPACITY,int s= 0,T v=0)
     {
@@ -50,6 +51,8 @@ public:
     bool empty() const { return !_size; } //判空
     Rank capacity() const { return _capacity;}//容量
     Rank find(T const& e, Rank low, Rank high);//区间查找
+    Rank search(T const &e, Rank low, Rank high) const; //有序的区间查找
+
     //可以进行访问操作的接口
 
     T & operator[](Rank r);             //使用‘【】’进行vector的访问
