@@ -143,13 +143,16 @@ int Vector<T>::disordered() {
 }
 
 template<typename T>
-Rank Vector<T>::search(const T &e, Rank low, Rank high) const {
-    //用二分或者是斐波那契查找
-    return (rand() % 2) ? binSearch(_elem, e, low, high) : fibSearch(_elem, e, low, high);
+void Vector<T>::sort(Rank lo, Rank hi) {
+    switch (rand() % 6) {
+
+        case 2:  selectionSort ( lo, hi ); break; //选择排序（习题）
+        case 3:  mergeSort ( lo, hi ); break; //归并排序
+        case 4:  heapSort ( lo, hi ); break; //堆排序（第12章）
+        case 5:  quickSort ( lo, hi ); break; //快速排序（第14章）
+        default: shellSort ( lo, hi ); break; //希尔排序（第14章）
+    }
 }
-
-
-
 
 
 

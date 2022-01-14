@@ -18,6 +18,15 @@ public:
     bool bubble ( Rank lo, Rank hi ); //扫描交换
     void shrink();      //装填的因子过小_size不足_capacity >> 2
     int disordered();
+    void bubbleSort ( Rank lo, Rank hi ); //起泡排序算法
+    Rank max ( Rank lo, Rank hi ); //选取最大元素
+    void selectionSort ( Rank lo, Rank hi ); //选择排序算法
+    void merge ( Rank lo, Rank mi, Rank hi ); //归并算法
+    void mergeSort ( Rank lo, Rank hi ); //归并排序算法
+    void heapSort ( Rank lo, Rank hi ); //堆排序（稍后结合完全堆讲解）
+    Rank partition ( Rank lo, Rank hi ); //轴点构造算法
+    void quickSort ( Rank lo, Rank hi ); //快速排序算法
+    void shellSort ( Rank lo, Rank hi ); //希尔排序算法
 public:
     Vector(int c=DEAULT_CAPACITY,int s= 0,T v=0)
     {
@@ -51,10 +60,10 @@ public:
     bool empty() const { return !_size; } //判空
     Rank capacity() const { return _capacity;}//容量
     Rank find(T const& e, Rank low, Rank high);//区间查找
-    Rank search(T const &e, Rank low, Rank high) const; //有序的区间查找
+    //Rank search(T const &e, Rank low, Rank high) const; //有序的区间查找
 
     //可以进行访问操作的接口
-
+    void sort(Rank low, Rank high);     //排序的接口
     T & operator[](Rank r);             //使用‘【】’进行vector的访问
     Rank insert(Rank r, T const &e);    //向下标为r的位置插入e
     int remove(Rank low, Rank high);    //删除[low,high)的元素
