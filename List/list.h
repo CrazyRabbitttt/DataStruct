@@ -109,6 +109,81 @@ void List<T>::copyNodes(ListNodePosi(T) p, int n) {
     }
 }
 
+template <typename T>
+ListNodePosi(T) List<T>::find(const T & e, int n, ListNodePosi(T) p) const {        //在n个前驱节点中进行查找是否有匹配结点p的结点
+    while (n--) {
+        if (e == (p = p -> pred) -> data) return p;
+    }
+    return NULL;        //查找失败，返回空指针
+}
+
+template <typename T>
+int List<T>::deduplicate() {        //无序去重，返回去掉的重复元素的个数
+    int old_size = _size;
+    if (old_size < 2) return 0;     //至少数量是2才能去重
+    //基本的思路是查找第r个数前面是否是有和他重复的结点，如果有就去除掉前面重复的，然后curnode 指向下一个继续去重
+    ListNodePosi(T) p = first();        //首结点开始
+    Rank index = 1;                     //index用于find函数中的n,就是查找前面n个结点
+    while (p = (p -> succ) != trailer) {
+        ListNodePosi(T) node = find(p->data, index, p);
+        node ? remove(node) : index++;          //如果查到重复的节点了就删除，否则index自加
+    }
+    return old_size - _size;
+}
+
+template <typename T>
+int List<T>::uniquify() {       //有序列表的唯一化
+    if (_size < 2) return 0;
+    int old_size = _size;
+    ListNodePosi(T) p = first();            //p用于确定最终的所有的结点：p指向的一定是最终保留的结点
+    ListNodePosi(T) node = p -> succ;       //node是用于移动和确定移除的结点
+    while (trailer != (node = p -> succ)) {
+        node -> data == p -> data ? remove(node) : p = node;
+    }
+    return old_size - _size;
+}
+template <typename T>
+ListNodePosi(T) List<T>::search(const T & e, int n, ListNodePosi(T) p) const{               //同find类似，在前n个前驱结点中查找不大于p的结点
+    ListNodePosi(T) node = p -> pred;
+    while (n --) {
+        if ((p = p -> pred) -> data <= e) break;
+    }
+    return p;
+}
+
+template <typename T>
+ListNodePosi(T) List<T>::selectMax(ListNodePosi(T) p, int n) {      //查找从结点p开始的后面n个节点中，最大的节点
+    ListNodePosi(T) maxNode = p;
+    ListNodePosi(T) curNode = p;
+    while (n > 1) {
+        if ((curNode = curNode -> succ) -> data >= maxNode -> data) maxNode = curNode;
+    }
+    return maxNode;
+}
+
+template<typename T>
+void List<T>::selectionSort(ListNodePosi(T) p, int n) {
+    //从p开始向后n个结点进行选择排序
+    ListNodePosi(T) head = p -> pred;       //排序的区间(head, tail) ,全部都是开区间
+    ListNodePosi(T) tail = p;
+    for (int i = 0; i < n; ++i) tail = tail->succ;      //末尾哨兵结点，开区间，取不到tail  ： (head, tail)
+    while (n > 1) {
+        //注意理解这一个函数（一定要明确区间的范围是什么，一直在变化的），首先选出待排区间的最大值，在原位置删除掉然后插入到待排区间末尾（那就是哨兵tail的前面了）
+        insertB(tail, remove(selectMax(head -> succ,n)));
+        tail = tail -> pred;        //待排区间收缩，哨兵前移
+        n--;        //进行n - 1次的排列就行
+    }
+}
+
+
+template <typename T> //对列表中起始于位置p、宽度为n的区间做插入排序
+void List<T>::insertionSort ( ListNodePosi(T) p, int n ) { //valid(p) && rank(p) + n <= size
+    for ( int r = 0; r < n; r++ ) { //逐一为各节点
+        insertA ( search ( p->data, r, p ), p->data ); //查找适当的位置并插入
+        p = p->succ; remove ( p->pred ); //转向下一节点
+    }
+}
+
 //将结点p从List中删除掉，并且返回结点的内容
 template <typename T>
 T List<T>::remove(ListNodePosi(T) p) {
@@ -132,10 +207,6 @@ template <typename T> List<T>::~List<T>() {
     clear();        //清空列表的内容
     delete header;delete trailer;       //释放头结点，尾结点
 }
-
-
-
-
 
 
 #endif //LIST_LIST_H
